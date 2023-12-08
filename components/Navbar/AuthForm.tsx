@@ -13,6 +13,8 @@ import { z } from "zod";
 import { Input } from "../ui/input";
 import { AuthButton } from "./AuthButton";
 import { authFormSchema } from "@/lib/types";
+import { SignUpAction } from "@/actions/signup-action";
+import { useToast } from "../ui/use-toast";
 
 interface LoginFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,7 +33,7 @@ const SignUpForm = ({ setOpen }: LoginFormProps) => {
     <Form {...form}>
       <form
         action={async (formdata: FormData) => {
-          const res = await LoginAction(formdata);
+          const res = await SignUpAction(formdata);
           if (res?.status === 200) {
             setOpen(false);
           }
@@ -90,6 +92,8 @@ const LoginForm = ({ setOpen }: LoginFormProps) => {
     },
   });
 
+  const { toast } = useToast();
+
   return (
     <Form {...form}>
       <form
@@ -98,6 +102,16 @@ const LoginForm = ({ setOpen }: LoginFormProps) => {
           const res = await LoginAction(formdata);
           if (res?.status === 200) {
             setOpen(false);
+            toast({
+              title: "Login successful",
+              variant: "success",
+            });
+          }
+          if (res?.error) {
+            toast({
+              title: "Credentials invalid",
+              variant: "destructive",
+            });
           }
         }}
         className="flex flex-col gap-5 w-full"
