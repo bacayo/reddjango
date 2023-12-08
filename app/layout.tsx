@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import Navbar from "@/components/Navbar/Navbar";
 import { getSession } from "@/actions/getSession";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system">
           <Navbar session={session} />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
