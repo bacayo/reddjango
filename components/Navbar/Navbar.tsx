@@ -131,7 +131,11 @@ const Navbar = ({ session }: NavbarProps) => {
         {!session ? (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="default" size="sm">
+              <Button
+                onClick={() => setModalState("login")}
+                variant="default"
+                size="sm"
+              >
                 Login
               </Button>
             </DialogTrigger>
