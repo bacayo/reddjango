@@ -1,5 +1,5 @@
 "use server";
-import { loginFormSchema } from "@/lib/types";
+import { authFormSchema } from "@/lib/types";
 import axios, { isAxiosError } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 const baseUrl = "http://127.0.0.1:8000/";
 
 export async function LoginAction(formdata: FormData) {
-  const values = loginFormSchema.parse({
+  const values = authFormSchema.parse({
     username: formdata.get("username"),
     password: formdata.get("password"),
   });
