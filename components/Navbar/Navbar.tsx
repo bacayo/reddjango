@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -9,20 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Search } from "lucide-react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useTheme } from "next-themes";
+import { Session } from "@/lib/types";
+import { LoginForm, SignUpForm } from "./AuthForm";
+import LogoutForm from "./LogoutForm";
 import Reddit from "@/public/images/Reddit.svg";
 import RedditLight from "@/public/images/RedditLight.svg";
 import RedditLogoMobile from "@/public/images/redditLogoMobile.svg";
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-
-import { useTheme } from "next-themes";
-import { useState } from "react";
-import LoginForm from "./LoginForm";
-
-import { Session } from "@/lib/types";
-import LogoutForm from "./LogoutForm";
-import { Search } from "lucide-react";
 
 interface NavbarProps {
   session: Session | undefined;
@@ -31,6 +30,72 @@ interface NavbarProps {
 const Navbar = ({ session }: NavbarProps) => {
   const [open, setOpen] = useState(false);
   const { theme } = useTheme();
+  const [modalState, setModalState] = useState<"login" | "signup">("login");
+
+  const LoginDialog = (
+    <DialogContent className="sm:max-w-md h-screen md:h-fit">
+      <DialogHeader className="text-left">
+        <DialogTitle>Login</DialogTitle>
+        <DialogDescription>
+          By continuing, you agree to our User Agreement and acknowledge that
+          you understand the Privacy Policy.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="flex items-center space-x-2">
+        <LoginForm setOpen={setOpen} />
+      </div>
+      <DialogFooter className="sm:justify-start">
+        {/* <DialogClose asChild> */}
+        <footer className="text-sm flex flex-col gap-2">
+          <p className="text-sm">
+            Forgot your{" "}
+            <span className="text-blue-600 cursor-pointer">username</span> or{" "}
+            <span className="text-blue-600 cursor-pointer">password</span>?
+          </p>
+          <p className="text-sm">
+            New to Reddit?{" "}
+            <span
+              onClick={() => setModalState("signup")}
+              className="text-blue-600 cursor-pointer"
+            >
+              Sign Up
+            </span>
+          </p>
+        </footer>
+        {/* </DialogClose> */}
+      </DialogFooter>
+    </DialogContent>
+  );
+
+  const SignUpDialog = (
+    <DialogContent className="sm:max-w-md h-screen md:h-fit">
+      <DialogHeader className="text-left">
+        <DialogTitle>Sign Up</DialogTitle>
+        <DialogDescription>
+          By continuing, you agree to our User Agreement and acknowledge that
+          you understand the Privacy Policy.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="flex items-center space-x-2">
+        <SignUpForm setOpen={setOpen} />
+      </div>
+      <DialogFooter className="sm:justify-start">
+        {/* <DialogClose asChild> */}
+        <footer className="text-sm flex flex-col gap-2">
+          <p className="text-sm">
+            Already a redditor?{" "}
+            <span
+              onClick={() => setModalState("login")}
+              className="text-blue-600 cursor-pointer"
+            >
+              Login
+            </span>
+          </p>
+        </footer>
+        {/* </DialogClose> */}
+      </DialogFooter>
+    </DialogContent>
+  );
 
   return (
     <nav className="bg-primary-foreground px-2 py-4 fixed top-0 w-screen z-10">
@@ -70,41 +135,7 @@ const Navbar = ({ session }: NavbarProps) => {
                 Login
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md h-screen md:h-fit">
-              <DialogHeader className="text-left">
-                <DialogTitle>Login</DialogTitle>
-                <DialogDescription>
-                  By continuing, you agree to our User Agreement and acknowledge
-                  that you understand the Privacy Policy.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex items-center space-x-2">
-                <LoginForm setOpen={setOpen} />
-              </div>
-              <DialogFooter className="sm:justify-start">
-                {/* <DialogClose asChild> */}
-                <footer className="text-sm flex flex-col gap-2">
-                  <p className="text-sm">
-                    Forgot your{" "}
-                    <span className="text-blue-600 cursor-pointer">
-                      username
-                    </span>{" "}
-                    or{" "}
-                    <span className="text-blue-600 cursor-pointer">
-                      password
-                    </span>
-                    ?
-                  </p>
-                  <p className="text-sm">
-                    New to Reddit?{" "}
-                    <span className="text-blue-600 cursor-pointer">
-                      Sign Up
-                    </span>
-                  </p>
-                </footer>
-                {/* </DialogClose> */}
-              </DialogFooter>
-            </DialogContent>
+            {modalState === "login" ? LoginDialog : SignUpDialog}
           </Dialog>
         ) : (
           // <LogoutButton />
