@@ -28,7 +28,6 @@ export async function LoginAction(formdata: FormData) {
     }
   } catch (error) {
     if (isAxiosError(error)) {
-      console.log(error.response?.data);
       return { error: error.response?.status };
     }
   }
