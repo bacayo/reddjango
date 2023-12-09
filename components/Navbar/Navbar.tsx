@@ -42,7 +42,7 @@ const Navbar = ({ session }: NavbarProps) => {
         </DialogDescription>
       </DialogHeader>
       <div className="flex items-center space-x-2">
-        <LoginForm setOpen={setOpen} />
+        <LoginForm setOpen={setOpen} setModalState={setModalState} />
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
@@ -77,7 +77,7 @@ const Navbar = ({ session }: NavbarProps) => {
         </DialogDescription>
       </DialogHeader>
       <div className="flex items-center space-x-2">
-        <SignUpForm setOpen={setOpen} />
+        <SignUpForm setOpen={setOpen} setModalState={setModalState} />
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
