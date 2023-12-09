@@ -1,7 +1,7 @@
 "use server";
 
 import { authFormSchema } from "@/lib/types";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 export async function SignUpAction(formdata: FormData) {
   const values = authFormSchema.parse({
@@ -11,7 +11,7 @@ export async function SignUpAction(formdata: FormData) {
   });
 
   try {
-    const { data, status } = await axios.post(
+    const { data, status, statusText } = await axios.post(
       "http://127.0.0.1:8000/auth/users/",
       {
         username: values.username,
@@ -22,8 +22,12 @@ export async function SignUpAction(formdata: FormData) {
     return {
       data: data,
       status: status,
+      statusText: statusText,
     };
   } catch (error) {
     console.log(error);
+    if (isAxiosError(error)) {
+      return { error: error.response?.data };
+    }
   }
 }
