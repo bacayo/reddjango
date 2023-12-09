@@ -14,13 +14,14 @@ import { Input } from "../ui/input";
 import { AuthButton } from "./AuthButton";
 import { authFormSchema } from "@/lib/types";
 import { SignUpAction } from "@/actions/signup-action";
-import { useToast } from "../ui/use-toast";
+import { toast, useToast } from "../ui/use-toast";
 
 interface LoginFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalState: React.Dispatch<React.SetStateAction<"login" | "signup">>;
 }
 
-const SignUpForm = ({ setOpen }: LoginFormProps) => {
+const SignUpForm = ({ setOpen, setModalState }: LoginFormProps) => {
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
@@ -34,9 +35,21 @@ const SignUpForm = ({ setOpen }: LoginFormProps) => {
       <form
         action={async (formdata: FormData) => {
           const res = await SignUpAction(formdata);
-          if (res?.status === 200) {
-            setOpen(false);
+          if (res?.status === 201) {
+            // setOpen(false);
+            setModalState("login");
+            toast({
+              description: "you can login now",
+              variant: "success",
+            });
           }
+          if (res?.error) {
+            toast({
+              title: Object.values(res.error).toString(),
+              variant: "destructive",
+            });
+          }
+          console.log(res?.error);
         }}
         className="flex flex-col gap-5 w-full"
       >
