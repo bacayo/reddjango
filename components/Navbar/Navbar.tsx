@@ -22,6 +22,7 @@ import LogoutForm from "./LogoutForm";
 import Reddit from "@/public/images/Reddit.svg";
 import RedditLight from "@/public/images/RedditLight.svg";
 import RedditLogoMobile from "@/public/images/redditLogoMobile.svg";
+import NavbarUserDropdown from "./NavbarUserDropdown";
 
 interface NavbarProps {
   session: Session | undefined;
@@ -98,7 +99,7 @@ const Navbar = ({ session }: NavbarProps) => {
   );
 
   return (
-    <nav className="bg-primary-foreground px-2 py-4 fixed top-0 w-screen z-10">
+    <nav className="bg-primary-foreground px-2 py-4 sticky top-0 w-screen z-10">
       <ul className="flex items-center justify-around">
         <div className="flex items-center gap-2">
           <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
@@ -142,8 +143,8 @@ const Navbar = ({ session }: NavbarProps) => {
             {modalState === "login" ? LoginDialog : SignUpDialog}
           </Dialog>
         ) : (
-          // <LogoutButton />
-          <LogoutForm />
+          // <LogoutForm />
+          <NavbarUserDropdown session={session} />
         )}
       </ul>
     </nav>
