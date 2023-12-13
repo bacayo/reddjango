@@ -116,7 +116,7 @@ const LoginForm = ({ setOpen }: LoginFormProps) => {
           if (res?.status === 200) {
             setOpen(false);
             toast({
-              title: "Login successful",
+              description: "You are now logged in.You will soon be redirected",
               variant: "success",
             });
           }
