@@ -35,7 +35,7 @@ const NavbarUserDropdown = ({ session }: NavbarUserDropdownProps) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="secondary"
-          className="flex  w-40 items-center  justify-between px-2 py-2"
+          className="flex w-40 items-center justify-between px-2 py-2"
         >
           <div className="flex flex-col text-xs items-start gap-1">
             <p>{session.username}</p>

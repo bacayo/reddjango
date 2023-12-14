@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 
 import {
   Dialog,
@@ -12,16 +11,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Search } from "lucide-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { useTheme } from "next-themes";
 import { Session } from "@/lib/types";
-import { LoginForm, SignUpForm } from "./AuthForm";
-import LogoutForm from "./LogoutForm";
 import Reddit from "@/public/images/Reddit.svg";
 import RedditLight from "@/public/images/RedditLight.svg";
 import RedditLogoMobile from "@/public/images/redditLogoMobile.svg";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setModalOpen, setModalState } from "@/redux/slices/modalState";
+import { Search } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { LoginForm, SignUpForm } from "./AuthForm";
 import NavbarUserDropdown from "./NavbarUserDropdown";
 
 interface NavbarProps {
@@ -29,9 +29,9 @@ interface NavbarProps {
 }
 
 const Navbar = ({ session }: NavbarProps) => {
-  const [open, setOpen] = useState(false);
   const { theme } = useTheme();
-  const [modalState, setModalState] = useState<"login" | "signup">("login");
+  const dispatch = useAppDispatch();
+  const { modalOpen, modalState } = useAppSelector((state) => state.modalState);
 
   const LoginDialog = (
     <DialogContent className="sm:max-w-md h-screen md:h-fit">
@@ -43,7 +43,7 @@ const Navbar = ({ session }: NavbarProps) => {
         </DialogDescription>
       </DialogHeader>
       <div className="flex items-center space-x-2">
-        <LoginForm setOpen={setOpen} setModalState={setModalState} />
+        <LoginForm />
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
@@ -56,7 +56,7 @@ const Navbar = ({ session }: NavbarProps) => {
           <p className="text-sm">
             New to Reddit?{" "}
             <span
-              onClick={() => setModalState("signup")}
+              onClick={() => dispatch(setModalState("signup"))}
               className="text-blue-600 cursor-pointer"
             >
               Sign Up
@@ -78,7 +78,7 @@ const Navbar = ({ session }: NavbarProps) => {
         </DialogDescription>
       </DialogHeader>
       <div className="flex items-center space-x-2">
-        <SignUpForm setOpen={setOpen} setModalState={setModalState} />
+        <SignUpForm />
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
@@ -86,7 +86,7 @@ const Navbar = ({ session }: NavbarProps) => {
           <p className="text-sm">
             Already a redditor?{" "}
             <span
-              onClick={() => setModalState("login")}
+              onClick={() => dispatch(setModalState("login"))}
               className="text-blue-600 cursor-pointer"
             >
               Login
@@ -99,7 +99,8 @@ const Navbar = ({ session }: NavbarProps) => {
   );
 
   return (
-    <nav className="bg-primary-foreground px-2 py-4 sticky top-0 w-screen z-10">
+    // <nav className="bg-primary-foreground px-2 py-4 sticky top-0 w-screen z-10">
+    <nav className="bg-primary-foreground px-2 py-4 sticky top-0 z-10">
       <ul className="flex items-center justify-around">
         <div className="flex items-center gap-2">
           <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
@@ -130,15 +131,16 @@ const Navbar = ({ session }: NavbarProps) => {
           />
         </div>
         {!session ? (
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog
+            open={modalOpen}
+            onOpenChange={() => dispatch(setModalOpen())}
+          >
             <DialogTrigger asChild>
-              <Button
-                onClick={() => setModalState("login")}
-                variant="default"
-                size="sm"
-              >
-                Login
-              </Button>
+              <div className="sm:w-40 flex items-center justify-center">
+                <Button variant="default" size="sm">
+                  Login
+                </Button>
+              </div>
             </DialogTrigger>
             {modalState === "login" ? LoginDialog : SignUpDialog}
           </Dialog>

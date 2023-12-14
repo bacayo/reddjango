@@ -15,13 +15,10 @@ import { AuthButton } from "./AuthButton";
 import { authFormSchema } from "@/lib/types";
 import { SignUpAction } from "@/actions/signup-action";
 import { toast, useToast } from "../ui/use-toast";
+import { useAppDispatch } from "@/redux/hooks";
+import { setModalOpen, setModalState } from "@/redux/slices/modalState";
 
-interface LoginFormProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setModalState: React.Dispatch<React.SetStateAction<"login" | "signup">>;
-}
-
-const SignUpForm = ({ setOpen, setModalState }: LoginFormProps) => {
+const SignUpForm = () => {
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
@@ -30,6 +27,9 @@ const SignUpForm = ({ setOpen, setModalState }: LoginFormProps) => {
       email: "",
     },
   });
+
+  const dispatch = useAppDispatch();
+
   return (
     <Form {...form}>
       <form
@@ -37,7 +37,8 @@ const SignUpForm = ({ setOpen, setModalState }: LoginFormProps) => {
           const res = await SignUpAction(formdata);
           if (res?.status === 201) {
             // setOpen(false);
-            setModalState("login");
+            // setModalState("login");
+            dispatch(setModalState("login"));
             toast({
               description: "you can login now",
               variant: "success",
@@ -96,7 +97,7 @@ const SignUpForm = ({ setOpen, setModalState }: LoginFormProps) => {
   );
 };
 
-const LoginForm = ({ setOpen }: LoginFormProps) => {
+const LoginForm = () => {
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
     defaultValues: {
@@ -106,7 +107,7 @@ const LoginForm = ({ setOpen }: LoginFormProps) => {
   });
 
   const { toast } = useToast();
-
+  const dispatch = useAppDispatch();
   return (
     <Form {...form}>
       <form
@@ -114,7 +115,8 @@ const LoginForm = ({ setOpen }: LoginFormProps) => {
         action={async (formdata: FormData) => {
           const res = await LoginAction(formdata);
           if (res?.status === 200) {
-            setOpen(false);
+            // setOpen(false);
+            dispatch(setModalOpen());
             toast({
               description: "You are now logged in.You will soon be redirected",
               variant: "success",

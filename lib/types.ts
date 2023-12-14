@@ -16,3 +16,25 @@ export type Session = {
   id: number;
   username: string;
 };
+
+export type Post = {
+  id: number;
+  title: string;
+  content: string;
+  community: string;
+  author_name: string;
+  created_at: string;
+  updated_at: string;
+  comments: Comment[];
+  votes: number;
+};
+
+export type Comment = {
+  author_name: string;
+  comment_body: string;
+  parent_comment: number;
+  created_at: string;
+  updated_at: string;
+  post: number;
+  parent_comments: Comment[];
+};

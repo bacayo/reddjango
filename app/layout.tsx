@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import ReduxProvider from "@/providers/redux-provider";
+import Container from "@/components/Container";
 
 const roboto = Roboto({
   weight: "400",
@@ -26,11 +28,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <ThemeProvider attribute="class" defaultTheme="system">
-          <Navbar session={session} />
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <ReduxProvider>
+          <ThemeProvider attribute="class" defaultTheme="system">
+            <Navbar session={session} />
+            <Container>{children}</Container>
+            <Toaster />
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
