@@ -1,5 +1,5 @@
 import { Session } from "@/lib/types";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
@@ -13,9 +13,10 @@ export const getSession = async () => {
         },
       }
     );
-
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (isAxiosError(error)) {
+      console.log(error);
+    }
   }
 };

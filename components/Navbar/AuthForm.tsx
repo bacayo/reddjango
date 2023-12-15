@@ -52,7 +52,7 @@ const SignUpForm = () => {
           }
           console.log(res?.error);
         }}
-        className="flex flex-col gap-5 w-full"
+        className="flex w-full flex-col gap-5"
       >
         <FormField
           control={form.control}
@@ -129,7 +129,7 @@ const LoginForm = () => {
             });
           }
         }}
-        className="flex flex-col gap-5 w-full"
+        className="flex w-full flex-col gap-5"
       >
         <FormField
           control={form.control}

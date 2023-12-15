@@ -37,7 +37,7 @@ const NavbarUserDropdown = ({ session }: NavbarUserDropdownProps) => {
           variant="secondary"
           className="flex w-40 items-center justify-between px-2 py-2"
         >
-          <div className="flex flex-col text-xs items-start gap-1">
+          <div className="flex flex-col items-start gap-1 text-xs">
             <p>{session.username}</p>
             <div className="flex flex-row items-center gap-1">
               <Flower className="h-4 w-4" />
@@ -59,7 +59,7 @@ const NavbarUserDropdown = ({ session }: NavbarUserDropdownProps) => {
             onSelect={(e) => {
               e.preventDefault();
             }}
-            className="pl-8 items-center justify-between"
+            className="items-center justify-between pl-8"
           >
             <p>Online Status</p>
 
@@ -77,7 +77,7 @@ const NavbarUserDropdown = ({ session }: NavbarUserDropdownProps) => {
             onSelect={(e) => {
               e.preventDefault();
             }}
-            className="pl-8 items-center justify-between"
+            className="items-center justify-between pl-8"
           >
             <p>Dark Mode</p>
             <Switch
@@ -101,7 +101,7 @@ const NavbarUserDropdown = ({ session }: NavbarUserDropdownProps) => {
         <DropdownMenuSeparator />
         <form className=" w-full" action={logout}>
           <DropdownMenuItem>
-            <button className="w-full flex items-center h-full">
+            <button className="flex h-full w-full items-center">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </button>

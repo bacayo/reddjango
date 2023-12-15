@@ -34,7 +34,7 @@ const Navbar = ({ session }: NavbarProps) => {
   const { modalOpen, modalState } = useAppSelector((state) => state.modalState);
 
   const LoginDialog = (
-    <DialogContent className="sm:max-w-md h-screen md:h-fit">
+    <DialogContent className="h-screen sm:max-w-md md:h-fit">
       <DialogHeader className="text-left">
         <DialogTitle>Login</DialogTitle>
         <DialogDescription>
@@ -47,17 +47,17 @@ const Navbar = ({ session }: NavbarProps) => {
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
-        <footer className="text-sm flex flex-col gap-2">
+        <footer className="flex flex-col gap-2 text-sm">
           <p className="text-sm">
             Forgot your{" "}
-            <span className="text-blue-600 cursor-pointer">username</span> or{" "}
-            <span className="text-blue-600 cursor-pointer">password</span>?
+            <span className="cursor-pointer text-blue-600">username</span> or{" "}
+            <span className="cursor-pointer text-blue-600">password</span>?
           </p>
           <p className="text-sm">
             New to Reddit?{" "}
             <span
               onClick={() => dispatch(setModalState("signup"))}
-              className="text-blue-600 cursor-pointer"
+              className="cursor-pointer text-blue-600"
             >
               Sign Up
             </span>
@@ -69,7 +69,7 @@ const Navbar = ({ session }: NavbarProps) => {
   );
 
   const SignUpDialog = (
-    <DialogContent className="sm:max-w-md h-screen md:h-fit">
+    <DialogContent className="h-screen sm:max-w-md md:h-fit">
       <DialogHeader className="text-left">
         <DialogTitle>Sign Up</DialogTitle>
         <DialogDescription>
@@ -82,12 +82,12 @@ const Navbar = ({ session }: NavbarProps) => {
       </div>
       <DialogFooter className="sm:justify-start">
         {/* <DialogClose asChild> */}
-        <footer className="text-sm flex flex-col gap-2">
+        <footer className="flex flex-col gap-2 text-sm">
           <p className="text-sm">
             Already a redditor?{" "}
             <span
               onClick={() => dispatch(setModalState("login"))}
-              className="text-blue-600 cursor-pointer"
+              className="cursor-pointer text-blue-600"
             >
               Login
             </span>
@@ -100,7 +100,7 @@ const Navbar = ({ session }: NavbarProps) => {
 
   return (
     // <nav className="bg-primary-foreground px-2 py-4 sticky top-0 w-screen z-10">
-    <nav className="bg-primary-foreground px-2 py-4 sticky top-0 z-10">
+    <nav className="sticky top-0 z-10 bg-primary-foreground px-2 py-4">
       <ul className="flex items-center justify-around">
         <div className="flex items-center gap-2">
           <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
@@ -123,10 +123,10 @@ const Navbar = ({ session }: NavbarProps) => {
             />
           )}
         </div>
-        <div className="flex w-3/5 md:w-2/4 items-center relative">
+        <div className="relative flex w-3/5 items-center md:w-2/4">
           <Search className="absolute left-3" size={20} />
           <Input
-            className="indent-6 rounded-xl"
+            className="rounded-xl indent-6"
             placeholder="search reddit..."
           />
         </div>
@@ -136,7 +136,7 @@ const Navbar = ({ session }: NavbarProps) => {
             onOpenChange={() => dispatch(setModalOpen())}
           >
             <DialogTrigger asChild>
-              <div className="sm:w-40 flex items-center justify-center">
+              <div className="flex items-center justify-center sm:w-40">
                 <Button variant="default" size="sm">
                   Login
                 </Button>

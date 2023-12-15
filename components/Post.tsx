@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { setModalOpen } from "@/redux/slices/modalState";
+import { useTheme } from "next-themes";
 
 interface PostProps {
   posts: Post;
@@ -22,13 +23,12 @@ interface PostProps {
 
 const Post = ({ posts, session }: PostProps) => {
   dayjs.extend(relativeTime);
-
   const dispatch = useAppDispatch();
 
   return (
-    <div className="dark:bg-neutral-900 flex items-start gap-2 lg:max-w-2xl cursor-pointer h-full border-neutral-400 hover:border-neutral-600 dark:border-neutral-600 border rounded dark:hover:border-neutral-400">
+    <div className="flex h-full cursor-pointer items-start gap-2 rounded-lg border border-neutral-400 bg-neutral-100 hover:border-neutral-600 dark:border-neutral-600 dark:bg-neutral-900 dark:hover:border-neutral-400 lg:max-w-2xl">
       {/* left */}
-      <div className="flex flex-col items-center justify-start gap-2 px-1 py-2 h-full dark:bg-neutral-950 bg-neutral-100 dark:text-neutral-400">
+      <div className="flex h-full flex-col items-center justify-start gap-2 rounded-l-lg bg-neutral-50 px-1 py-2 dark:bg-neutral-950 dark:text-neutral-400">
         <ArrowUpCircle
           className="cursor-pointer hover:text-emerald-700 "
           onClick={() => {
@@ -47,8 +47,8 @@ const Post = ({ posts, session }: PostProps) => {
       <section className="flex-1 px-2 py-2">
         {/* posts nav */}
         <div className="flex items-center gap-2">
-          <h4 className="text-sm cursor-pointer">r/{posts.community}</h4>
-          <p className="text-muted-foreground text-sm">
+          <h4 className="cursor-pointer text-sm">r/{posts.community}</h4>
+          <p className="text-sm text-muted-foreground">
             Posted by u/
             <span className="cursor-pointer">{posts.author_name}</span>{" "}
             {dayjs().to(dayjs(posts.created_at))}
@@ -60,11 +60,11 @@ const Post = ({ posts, session }: PostProps) => {
           <p className="pt-4">{posts.content}</p>
         </div>
         {/* post footer */}
-        <div className="pt-4 flex items-center text-sm text-muted-foreground">
+        <div className="flex items-center pt-4 text-sm text-muted-foreground">
           <Button
             variant="outline"
             size="sm"
-            className="dark:bg-neutral-900  border-none dark:hover:bg-neutral-600 gap-1"
+            className="gap-1  border-none bg-neutral-100 hover:bg-neutral-300 dark:bg-neutral-900 dark:hover:bg-neutral-600"
           >
             <MessageSquare className="h-5 w-5" />
             {/* <span>{posts.comments.length}</span> comments */}
@@ -73,7 +73,7 @@ const Post = ({ posts, session }: PostProps) => {
           <Button
             variant="outline"
             size="sm"
-            className="dark:bg-neutral-900 border-none dark:hover:bg-neutral-600 gap-1"
+            className="gap-1 border-none bg-neutral-100 hover:bg-neutral-300 dark:bg-neutral-900 dark:hover:bg-neutral-600"
           >
             <Forward className="h-5 w-5" />
             share
@@ -81,7 +81,7 @@ const Post = ({ posts, session }: PostProps) => {
           <Button
             size="sm"
             variant="outline"
-            className="dark:bg-neutral-900 border-none dark:hover:bg-neutral-600 gap-1"
+            className="gap-1 border-none bg-neutral-100 hover:bg-neutral-300 dark:bg-neutral-900 dark:hover:bg-neutral-600"
           >
             <Heart className="h-5 w-5" />
             save
