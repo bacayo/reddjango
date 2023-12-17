@@ -12,8 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Session } from "@/lib/types";
-import Reddit from "@/public/images/Reddit.svg";
-import RedditLight from "@/public/images/RedditLight.svg";
 import RedditLogoMobile from "@/public/images/redditLogoMobile.svg";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setModalOpen, setModalState } from "@/redux/slices/modalState";
@@ -104,24 +102,17 @@ const Navbar = ({ session }: NavbarProps) => {
       <ul className="flex items-center justify-around">
         <div className="flex items-center gap-2">
           <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
-
-          {theme === "light" ? (
-            <Image
-              src={RedditLight}
-              alt="redditText"
-              width={70}
-              height={80}
-              className="hidden md:block"
-            />
-          ) : (
-            <Image
-              src={Reddit}
-              alt="redditText"
-              width={70}
-              height={80}
-              className="hidden md:block"
-            />
-          )}
+          <Image
+            src={
+              localStorage.getItem("theme") === "dark"
+                ? "/images/Reddit.svg"
+                : "/images/RedditLight.svg"
+            }
+            alt="redditText"
+            width={70}
+            height={80}
+            className="hidden md:block"
+          />
         </div>
         <div className="relative flex w-3/5 items-center md:w-2/4">
           <Search className="absolute left-3" size={20} />
