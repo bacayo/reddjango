@@ -1,14 +1,14 @@
-import Post from "@/components/Post";
-import axios from "axios";
-import React from "react";
-import { cn } from "@/lib/utils";
 import { getSession } from "@/actions/getSession";
-import { Session } from "@/lib/types";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import Banner from "@/public/images/banner.png";
-import { Separator } from "@/components/ui/separator";
+import CreateCommunityModal from "@/components/Modal/CreateCommunityModal";
+import Post from "@/components/Post";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Session } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import Banner from "@/public/images/banner.png";
+import axios from "axios";
+import Image from "next/image";
 
 const getPost = async () => {
   const { data, status, statusText } = await axios.get<Post[]>(
@@ -50,9 +50,10 @@ export default async function Home() {
               favorite communities.
             </p>
             <Separator className="mt-4 bg-neutral-600 dark:bg-neutral-500" />
-            <Button className="w-full font-extrabold dark:bg-amber-500 dark:hover:bg-amber-400">
+            <Button className="w-full rounded-xl font-extrabold dark:bg-amber-500 dark:hover:bg-amber-400">
               Create Post
             </Button>
+            <CreateCommunityModal />
           </div>
         </div>
       </section>
