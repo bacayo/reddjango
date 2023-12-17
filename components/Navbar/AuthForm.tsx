@@ -42,6 +42,7 @@ const SignUpForm = () => {
             toast({
               description: "you can login now",
               variant: "success",
+              duration: 3000,
             });
           }
           if (res?.error) {
@@ -126,6 +127,7 @@ const LoginForm = () => {
             toast({
               title: "Credentials invalid",
               variant: "destructive",
+              duration: 3000,
             });
           }
         }}
