@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setModalOpen, setModalState } from "@/redux/slices/modalState";
 import { Search } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LoginForm, SignUpForm } from "./AuthForm";
@@ -27,7 +28,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ session }: NavbarProps) => {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const dispatch = useAppDispatch();
   const { modalOpen, modalState } = useAppSelector((state) => state.modalState);
 
@@ -103,11 +104,7 @@ const Navbar = ({ session }: NavbarProps) => {
         <div className="flex items-center gap-2">
           <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
           <Image
-            src={
-              localStorage.getItem("theme") === "dark"
-                ? "/images/Reddit.svg"
-                : "/images/RedditLight.svg"
-            }
+            src={"/images/ReddDjangoLogo.svg"}
             alt="redditText"
             width={70}
             height={80}
