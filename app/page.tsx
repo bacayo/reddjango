@@ -12,7 +12,7 @@ import Image from "next/image";
 
 const getPost = async () => {
   const { data, status, statusText } = await axios.get<Post[]>(
-    "http://127.0.0.1:8000/api/post/",
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`,
   );
   return { data, status, statusText };
 };

@@ -12,12 +12,12 @@ export async function SignUpAction(formdata: FormData) {
 
   try {
     const { data, status, statusText } = await axios.post(
-      "http://127.0.0.1:8000/auth/users/",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users`,
       {
         username: values.username,
         password: values.password,
         email: values.email,
-      }
+      },
     );
     return {
       data: data,

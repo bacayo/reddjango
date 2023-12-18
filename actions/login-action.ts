@@ -4,8 +4,6 @@ import axios, { isAxiosError } from "axios";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-const baseUrl = "http://127.0.0.1:8000/";
-
 export async function LoginAction(formdata: FormData) {
   const values = authFormSchema.parse({
     username: formdata.get("username"),
@@ -14,10 +12,13 @@ export async function LoginAction(formdata: FormData) {
   const oneDay = 24 * 60 * 60 * 1000;
 
   try {
-    const { data, status } = await axios.post(`${baseUrl}/auth/token/login`, {
-      username: values.username,
-      password: values.password,
-    });
+    const { data, status } = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/login`,
+      {
+        username: values.username,
+        password: values.password,
+      },
+    );
 
     if (status === 200) {
       cookies().set("token", data["auth_token"], {

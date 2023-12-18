@@ -6,12 +6,12 @@ export const getSession = async () => {
   const token = cookies().get("token");
   try {
     const res = await axios.get<Session>(
-      "http://127.0.0.1:8000/auth/users/me/",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/me`,
       {
         headers: {
           Authorization: `Token ${token?.value}`,
         },
-      }
+      },
     );
     return res.data;
   } catch (error) {

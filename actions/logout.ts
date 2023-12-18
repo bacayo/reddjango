@@ -8,13 +8,13 @@ export const logout = async () => {
 
   try {
     const { data, status, statusText } = await axios.post(
-      "http://127.0.0.1:8000/auth/token/logout",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/logout`,
       {},
       {
         headers: {
           Authorization: `Token ${token?.value}`,
         },
-      }
+      },
     );
     if (status === 204) {
       cookies().delete("token");
