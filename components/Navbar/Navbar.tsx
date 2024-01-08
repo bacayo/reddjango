@@ -16,8 +16,7 @@ import RedditLogoMobile from "@/public/images/redditLogoMobile.svg";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setModalOpen, setModalState } from "@/redux/slices/modalState";
 import { Search } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LoginForm, SignUpForm } from "./AuthForm";
@@ -27,12 +26,10 @@ interface NavbarProps {
   session: Session | undefined;
 }
 
-const Navbar = ({ session }: NavbarProps) => {
-  const { theme, setTheme } = useTheme();
+export const LoginDialog = () => {
   const dispatch = useAppDispatch();
-  const { modalOpen, modalState } = useAppSelector((state) => state.modalState);
 
-  const LoginDialog = (
+  return (
     <DialogContent className="h-screen sm:max-w-md md:h-fit">
       <DialogHeader className="text-left">
         <DialogTitle>Login</DialogTitle>
@@ -66,6 +63,11 @@ const Navbar = ({ session }: NavbarProps) => {
       </DialogFooter>
     </DialogContent>
   );
+};
+
+const Navbar = ({ session }: NavbarProps) => {
+  const dispatch = useAppDispatch();
+  const { modalOpen, modalState } = useAppSelector((state) => state.modalState);
 
   const SignUpDialog = (
     <DialogContent className="h-screen sm:max-w-md md:h-fit">
@@ -102,14 +104,16 @@ const Navbar = ({ session }: NavbarProps) => {
     <nav className="sticky top-0 z-10 bg-primary-foreground px-2 py-4">
       <ul className="flex items-center justify-around">
         <div className="flex items-center gap-2">
-          <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
-          <Image
-            src={"/images/ReddDjangoLogo.svg"}
-            alt="redditText"
-            width={70}
-            height={80}
-            className="hidden md:block"
-          />
+          <Link className="flex gap-2" href="/">
+            <Image src={RedditLogoMobile} alt="logo" width={40} height={40} />
+            <Image
+              src={"/images/ReddDjangoLogo.svg"}
+              alt="redditText"
+              width={70}
+              height={80}
+              className="hidden md:block"
+            />
+          </Link>
         </div>
         <div className="relative flex w-3/5 items-center md:w-2/4">
           <Search className="absolute left-3" size={20} />
@@ -130,7 +134,7 @@ const Navbar = ({ session }: NavbarProps) => {
                 </Button>
               </div>
             </DialogTrigger>
-            {modalState === "login" ? LoginDialog : SignUpDialog}
+            {modalState === "login" ? <LoginDialog /> : SignUpDialog}
           </Dialog>
         ) : (
           // <LogoutForm />
