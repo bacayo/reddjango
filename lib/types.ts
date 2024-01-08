@@ -27,6 +27,10 @@ export type Post = {
   updated_at: string;
   comments: Comment[];
   votes: number;
+  post: {
+    id: number;
+    user: number;
+  }[];
 };
 
 export type Comment = {
@@ -37,4 +41,18 @@ export type Comment = {
   updated_at: string;
   post: number;
   parent_comments: Comment[];
+};
+
+export type Community = {
+  id: string;
+  name: string;
+  about_content: string;
+  members: number[];
+  posts: Post[];
+};
+
+export type User = {
+  id: number;
+  username: string;
+  joined_communities: Omit<Community, "about_content" | "posts">[];
 };
