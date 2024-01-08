@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -11,13 +12,36 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Copy } from "lucide-react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
+import { z } from "zod";
+import { communitySchema, createCommunity } from "@/actions/createCommunity";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Session } from "@/lib/types";
+import { LoginDialog } from "../Navbar/Navbar";
 
-const CreateCommunityModal = () => {
+interface CreateCommunityModalProps {
+  session: Session;
+}
+
+const CreateCommunityModal = ({ session }: CreateCommunityModalProps) => {
+  const form = useForm<z.infer<typeof communitySchema>>({
+    resolver: zodResolver(communitySchema),
+    defaultValues: {
+      communityName: "r/",
+      aboutContent: "",
+    },
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,36 +49,83 @@ const CreateCommunityModal = () => {
           Create a Community
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className=" pb-4">Create a community</DialogTitle>
-          <Separator />
-          <DialogDescription>
-            <DialogTitle>Name</DialogTitle>
-            <p className="pt-2 text-xs">
-              Community names including capitalization cannot be changed.
-            </p>
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            {/* <Label htmlFor="link" className="sr-only">
-              Link
-            </Label> */}
-            <Input className="" defaultValue="r/" />
-          </div>
-        </div>
-        <DialogFooter className="sm:justify-start  ">
-          <DialogClose className="flex w-full items-center justify-start gap-2">
-            <Button type="button" variant="secondary">
-              Cancel
-            </Button>
-            <Button type="button" variant="secondary">
-              Create Community
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
+      {session ? (
+        <DialogContent className="sm:max-w-md">
+          <Form {...form}>
+            <form
+              className="flex flex-col gap-2"
+              action={async (formdata: FormData) => {
+                const res = await createCommunity(formdata);
+                if (res?.data) {
+                  console.log(res.data);
+                }
+                console.log(res?.error?.message);
+              }}
+            >
+              <DialogHeader>
+                <DialogTitle className=" pb-4">Create a community</DialogTitle>
+                <Separator />
+                <DialogDescription>
+                  <DialogTitle>Name</DialogTitle>
+                  <p className="pt-2 text-xs">
+                    Community names including capitalization cannot be changed.
+                  </p>
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex items-center space-x-2">
+                <div className="grid flex-1 gap-2">
+                  {/* <Input className="" defaultValue="r/" />
+            <Input className="" placeholder="Add description" /> */}
+
+                  <FormField
+                    control={form.control}
+                    name="communityName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="aboutContent"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          tell us about your community{" "}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <Button type="submit">Submit</Button> */}
+                </div>
+              </div>
+              <DialogFooter className="sm:justify-start  ">
+                <DialogClose className="flex w-full items-center justify-start gap-2">
+                  <Button type="button" variant="secondary">
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant={form.formState.isValid ? "secondary" : "ghost"}
+                  >
+                    Create Community
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      ) : (
+        <LoginDialog />
+      )}
     </Dialog>
   );
 };
