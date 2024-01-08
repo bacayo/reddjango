@@ -12,7 +12,7 @@ export async function SignUpAction(formdata: FormData) {
 
   try {
     const { data, status, statusText } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/`,
       {
         username: values.username,
         password: values.password,

@@ -13,7 +13,7 @@ export async function LoginAction(formdata: FormData) {
 
   try {
     const { data, status } = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/login`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/token/login/`,
       {
         username: values.username,
         password: values.password,
