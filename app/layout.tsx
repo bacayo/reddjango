@@ -7,6 +7,8 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/providers/redux-provider";
 import Container from "@/components/Container";
+import QueryProvider from "@/providers/QueryProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const roboto = Roboto({
   weight: "400",
@@ -28,13 +30,18 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <ReduxProvider>
-          <ThemeProvider attribute="class" defaultTheme="system">
-            <Navbar session={session} />
-            <Container>{children}</Container>
-            <Toaster />
-          </ThemeProvider>
-        </ReduxProvider>
+        <QueryProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <ReduxProvider>
+            <ThemeProvider attribute="class" defaultTheme="system">
+              <Navbar session={session} />
+              {/* <Container> */}
+              {children}
+              {/* </Container> */}
+              <Toaster />
+            </ThemeProvider>
+          </ReduxProvider>
+        </QueryProvider>
       </body>
     </html>
   );
